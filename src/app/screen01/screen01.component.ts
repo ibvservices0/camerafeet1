@@ -63,6 +63,7 @@ export class Screen01Component implements OnInit, OnDestroy {
       console.log(this.global_service.the_input4());
       console.log(this.global_service.the_input5());
 
+      /*begin-only-log
       if (this.global_service.the_input5() !== null){
         let sValue5: String = new String(this.global_service.the_input5());
         this.mytext_input = sValue5.toString();
@@ -71,8 +72,8 @@ export class Screen01Component implements OnInit, OnDestroy {
         let sValue4: String = new String(this.global_service.the_input4());
         this.mytext_input = sValue4.toString();
       }
-
-      //this.mytext_input = s_input2;
+      end-only-log*/
+      
     }
   }
 
