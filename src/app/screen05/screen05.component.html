@@ -1,0 +1,30 @@
+<mat-toolbar *ngIf="isTaken" class="custom-toolbar">
+    <span>{{mytext_sideOuter}}</span>
+    <span class="example-fill-remaining-space"></span>
+    <button mat-button (click)="repeatOuter()">
+        {{mytext_repeat}}
+    </button>
+    <button mat-button (click)="confirmOuter()">
+        {{mytext_confirm}}
+    </button>
+</mat-toolbar>
+
+
+<div *ngIf="isTaking" class="custom-div-helperC">
+    <img *ngIf="isRight" class="custom-img-helperC" src="assets/images/helper03.png" />
+    <img *ngIf="isLeft" class="custom-img-helperC" src="assets/images/helper06.png" />
+</div>
+
+
+<div *ngIf="isTaking" id="div_vid_pose3" class="custom-div-pose3">
+    <button id="btphoto_pose3a" class="custom-img-btphoto3a" (click)="clickPhoto3a()"><img src="assets/images/btphoto.png"/></button>
+    <video id="vid_pose3" autoPlay="true" muted="true" playsInline="true"></video>
+    <button id="btphoto_pose3b" class="custom-img-btphoto3b" (click)="clickPhoto3b()"><img src="assets/images/btphoto.png"/></button>
+</div>
+
+<br><br><br><br>
+
+
+<div id="div_thecanvas3" class="custom-div-canvas3">
+    <canvas id="thecanvas3landscape" width="800" height="600" class="custom-canvas3"></canvas>
+</div>

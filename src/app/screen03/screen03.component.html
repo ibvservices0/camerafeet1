@@ -1,0 +1,34 @@
+<mat-toolbar *ngIf="isTaken" class="custom-toolbar">
+    <span>{{mytext_sideInner}}</span>
+    <span class="example-fill-remaining-space"></span>
+    <button mat-button (click)="repeatInner()">
+        {{mytext_repeat}}
+    </button>
+    <button mat-button (click)="confirmInner()">
+        {{mytext_confirm}}
+    </button>
+</mat-toolbar>
+
+<div *ngIf="isTaking" class="custom-div-helperA">
+    <img *ngIf="isRight" class="custom-img-helperA" src="assets/images/helper01.png" />
+    <img *ngIf="isLeft" class="custom-img-helperA" src="assets/images/helper04.png" />
+</div>
+
+<!-- <img id="btphoto_pose1" class="custom-img-btphoto1" src="assets/images/btphoto.png" /> -->
+<div *ngIf="isTaking" id="div_vid_pose1" class="custom-div-pose1">
+    <button id="btphoto_pose1a" class="custom-img-btphoto1a" (click)="clickPhoto1a()"><img src="assets/images/btphoto.png"/></button>
+    <video id="vid_pose1" autoPlay="true" muted="true" playsInline="true"></video>
+    <button id="btphoto_pose1b" class="custom-img-btphoto1b" (click)="clickPhoto1b()"><img src="assets/images/btphoto.png"/></button>
+</div>
+
+<br><br><br><br>
+
+<div id="div_thecanvas1" class="custom-div-canvas1">
+    <canvas id="thecanvas1landscape" width="800" height="600" class="custom-canvas1"></canvas>
+</div>
+ <!-- <canvas id="thecanvas1landscape" class="custom-canvas1"></canvas> -->
+<!-- <span *ngIf="isLandscape === false">Esto es una prueba</span> -->
+
+
+
+

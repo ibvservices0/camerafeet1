@@ -1,0 +1,24 @@
+<mat-toolbar class="custom-toolbar">
+    <span>{{mytext_app}}</span>
+    <span class="example-fill-remaining-space"></span>
+    <button mat-button id="action_recommend" (click)="actionRecommend()">
+        {{mytext_actionRecommend}}
+    </button>
+</mat-toolbar>
+<br><br><br><br>
+<table #tabla1 mat-table [dataSource]="measures" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="meas-id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="meas-val">
+        <th mat-header-cell *matHeaderCellDef> VAL </th>
+        <td mat-cell *matCellDef="let element"> {{element.val}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+
+</table>

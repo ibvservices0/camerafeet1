@@ -1,0 +1,113 @@
+.example-fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. Every toolbar row uses a
+       flexbox row layout. */
+    flex: 1 1 auto;
+}
+
+
+/*
+.custom-toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+  }
+*/
+
+
+.custom-div-pose2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+}
+
+.custom-img-btphoto2a {
+    display:inline-block;
+    width: 10%;
+    height: auto;
+  }
+  .custom-img-btphoto2b {
+    display:inline-block;
+    width: 10%;
+    height: auto;
+  }
+
+  video {
+    display:inline-block;
+    width: 80%;
+    height: auto;
+  }
+
+
+  .custom-div-canvas2{
+    display: flex;
+    background-color: #ffffff;
+    justify-content: center;
+  }
+
+  /* En LANDSCAPE al definir estilo,
+  por un BUG extraño pierde resolución la foto
+  .custom-canvas2 {
+    width: 960px; 800
+    height: 720px; 600
+  }
+  */
+
+  .custom-div-helperB{
+    display: flex;
+    justify-content: center;
+    background-color: #000000;
+  }
+
+
+  @media only screen and (orientation: portrait) {
+    .custom-toolbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      background-color: #1976d2;
+      color: white;
+      font-weight: 600;
+    }
+    .custom-canvas2 {
+      width: 360px;
+      height: 270px;
+    }
+    .custom-img-helperB {
+      width: 360px;
+      height: 360px;
+    }
+  
+    }
+
+
+    @media only screen and (orientation: landscape) {
+        .custom-toolbar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 60px;
+          display: flex;
+          align-items: center;
+          background-color: #1976d2;
+          color: white;
+          font-weight: 600;
+        }
+        .custom-img-helperB {
+          width: 0px;
+          height: 0px;
+        }
+      
+        }

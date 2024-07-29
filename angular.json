@@ -31,15 +31,19 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/scripts/mytest.js",
+              "src/scripts/permissionacel.js",
+              "src/scripts/mypose1.js",
+              "src/scripts/mypose2.js",
+              "src/scripts/mypose3.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -99,6 +103,9 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }

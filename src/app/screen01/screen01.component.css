@@ -1,0 +1,48 @@
+.example-fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. Every toolbar row uses a
+       flexbox row layout. */
+    flex: 1 1 auto;
+}
+
+/**/
+.custom-toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+  }
+/**/
+
+/*
+@media only screen and (orientation: portrait) {
+    .custom-toolbar {}
+  }
+@media only screen and (orientation: landscape) {
+    .custom-toolbar {}
+  }
+*/
+
+.span-custom{
+  width: 100%;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  display: block;
+}
+
+
+.custom-div-splash{
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+}
+.custom-img-splash {
+  width: 240px;
+  height: 240px;
+}
