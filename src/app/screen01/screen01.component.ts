@@ -24,10 +24,11 @@ export class Screen01Component implements OnInit, OnDestroy {
   public mytext_app: string;
   public mytext_es: string;
   public mytext_en: string;
+  public mytext_bilingueProducto: string = '';
+  public mytext_input: string = '';
+  public mytext_bilingueMode: string = '';
   public mytext_selectLanguage01: string;
   public mytext_selectLanguage02: string;
-
-  public mytext_input: string = '';
 
 
 
@@ -39,8 +40,10 @@ export class Screen01Component implements OnInit, OnDestroy {
     this.mytext_app = global_service.text_app();
     this.mytext_es = global_service.text_es();
     this.mytext_en = global_service.text_en();
-    this.mytext_selectLanguage01 = global_service.text_selectLanguage01();
-    this.mytext_selectLanguage02 = global_service.text_selectLanguage02();
+    //this.mytext_bilingueProducto = global_service.text_bilingueProducto();
+    //this.mytext_input = '241272';
+    this.mytext_selectLanguage01 = global_service.text_bilingueLanguage01();
+    this.mytext_selectLanguage02 = global_service.text_bilingueLanguage02();
   }
 
   ngOnInit(){
@@ -57,11 +60,11 @@ export class Screen01Component implements OnInit, OnDestroy {
       let arr_input: string[] = s_input2.split('&');
       this.global_service.set_the_inputs(arr_input);
 
-      console.log(this.global_service.the_input1());
-      console.log(this.global_service.the_input2());
-      console.log(this.global_service.the_input3());
-      console.log(this.global_service.the_input4());
-      console.log(this.global_service.the_input5());
+      //console.log(this.global_service.the_input1());
+      //console.log(this.global_service.the_input2());
+      //console.log(this.global_service.the_input3());
+      //console.log(this.global_service.the_input4());
+      //console.log(this.global_service.the_input5());
 
       /*begin-only-log
       if (this.global_service.the_input5() !== null){
@@ -73,7 +76,22 @@ export class Screen01Component implements OnInit, OnDestroy {
         this.mytext_input = sValue4.toString();
       }
       end-only-log*/
-      
+
+      if (this.global_service.the_input3() !== null){
+        this.mytext_bilingueProducto = this.global_service.text_bilingueProducto();
+        let sValueCodeProduct: String = new String(this.global_service.the_input3());
+        this.mytext_input = sValueCodeProduct.toString();
+      }
+
+      if (this.global_service.the_input5() !== null){
+        //this.mytext_bilingueMode = this.global_service.text_bilingueRegistered();
+        let sValueCodeUser: String = new String(this.global_service.the_input5());
+        this.mytext_bilingueMode = sValueCodeUser.toString();
+      }
+      else{
+        this.mytext_bilingueMode = this.global_service.text_bilingueAnonymous();
+      }
+
     }
   }
 
@@ -82,15 +100,33 @@ export class Screen01Component implements OnInit, OnDestroy {
 
   public toScreen02es() {
     this.global_service.set_isEnglish(false);
-    permissionacel.permission_accelerometers();
-    this.router.navigateByUrl('/screen02');
+    this.toNextScreen();
   }
 
   public toScreen02en() {
     this.global_service.set_isEnglish(true);
-    permissionacel.permission_accelerometers();
-    this.router.navigateByUrl('/screen02');
+    this.toNextScreen();
   }
+
+
+  private toNextScreen(){
+    permissionacel.permission_accelerometers();
+
+    //this.router.navigateByUrl('/screen01bis');
+    /* */
+    if (localStorage.getItem("feet_previous") === null){
+      this.router.navigateByUrl('/screen01bis');
+    }
+    else if (this.global_service.the_input5() !== null){
+      this.router.navigateByUrl('/screen01bis');
+    }
+    else{
+      this.router.navigateByUrl('/screen01acc');
+    }
+    /* */
+  }
+
+
 
 
 

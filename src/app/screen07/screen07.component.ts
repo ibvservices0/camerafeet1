@@ -20,7 +20,10 @@ export interface MyMeasure {
 })
 export class Screen07Component implements OnInit, OnDestroy {
 
+  public flagFirstFoot: boolean = false;
+
   public mytext_app: string;
+  public mytext_actionOpposite: string;
   public mytext_actionRecommend: string;
 
   public columnas: string[] = ['meas-id', 'meas-val'];
@@ -31,9 +34,19 @@ export class Screen07Component implements OnInit, OnDestroy {
 
   constructor(private router: Router, public global_service: KernelfeetService){
     this.mytext_app = global_service.text_app();
+    this.mytext_actionOpposite = global_service.text_actionOpposite();
     this.mytext_actionRecommend = global_service.text_actionRecommend();
 
-    var dataraw0: string = global_service.foot_measurements();
+    this.flagFirstFoot = global_service.is_firstFoot();
+
+    var dataraw0: string = '';
+    if (global_service.is_footRight()){
+      dataraw0 = global_service.right_foot_measurements();
+    }
+    else{
+      dataraw0 = global_service.left_foot_measurements();
+    }
+
     var dataraw1: string = dataraw0.replace('{', '');
     var dataraw2: string = dataraw1.replace('}', '');
     let data_arr: string[] = dataraw2.split(',');
@@ -79,7 +92,18 @@ export class Screen07Component implements OnInit, OnDestroy {
 
 
   public actionRecommend(){
-    alert('EN CONSTRUCCION');
+    this.router.navigateByUrl('/screen08');
+  }
+
+  public actionOpposite(){
+    //primero
+    this.global_service.set_isFirstFoot(false);
+    var flagPrevIsRight: boolean = this.global_service.is_footRight();
+    this.global_service.set_isFootRight(!flagPrevIsRight);
+    var flagPrevIsLeft: boolean = this.global_service.is_footLeft();
+    this.global_service.set_isFootLeft(!flagPrevIsLeft);
+    //finalmente
+    this.router.navigateByUrl('/screen03');
   }
 
 }

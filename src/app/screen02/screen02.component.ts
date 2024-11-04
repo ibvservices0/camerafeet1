@@ -77,9 +77,10 @@ export class Screen02Component implements OnInit, OnDestroy {
       username: global_service.webservice_username(),
       password: global_service.webservice_password(),
       grant_type: global_service.webservice_grant_type(),
-      license_code: global_service.webservice_license_code(),
-      device: global_service.webservice_device()
+      pass_encript: '1'
     };
+    //license_code: global_service.webservice_license_code()
+    //device: global_service.webservice_device()
     this.webservice_base_url = global_service.webservice_base_url();
   }
 
@@ -111,36 +112,65 @@ export class Screen02Component implements OnInit, OnDestroy {
 
     const localUrl = this.webservice_base_url + "/auth/authorize";
 
+
+    /*Begin-deprecated
     this.http.post(localUrl, this.webservice_requestLoginJson, httpOptionsZero).subscribe(
-      (value:any) => { 
-        this.divAutorizando.setAttribute("hidden", "hidden");
-        this.divAutorizadoOk.removeAttribute("hidden");
-        //localStorage.setItem('feet_accesstoken', value.access_token);
-        this.global_service.set_feet_accesstoken(value.access_token);
-        this.global_service.set_isAuthenticated(true);
-        console.log('POST response OK') },
-      error => {
-        this.divAutorizando.setAttribute("hidden", "hidden");
-        this.divAutorizadoError.removeAttribute("hidden");
-        console.log('ERROR: ' + error)}
+      (resp:any) => {this.postResponseOk(resp);},
+      error => {this.postResponseErr(error.message);}
     );
+    End-deprecated*/
+
+    /*Begin-alternativa*/
+    this.http.post(localUrl, this.webservice_requestLoginJson, httpOptionsZero).subscribe({  
+      next: resp => this.postResponseOk(resp),  
+      error: err => this.postResponseErr(err.message),  
+      complete: () => console.log('http_post done')  
+    });
+    /*End-alternativa*/
 
   }
 
 
+
+
+  private postResponseOk(respjson: any){
+
+    if (respjson !== null){
+
+      this.divAutorizando.setAttribute("hidden", "hidden");
+      this.divAutorizadoOk.removeAttribute("hidden");
+      //localStorage.setItem('feet_accesstoken', respjson.access_token);
+      this.global_service.set_feet_accesstoken(respjson.access_token);
+      this.global_service.set_isAuthenticated(true);
+      console.log('POST response OK');
+    }
+    else{
+      this.divAutorizando.setAttribute("hidden", "hidden");
+      this.divAutorizadoError.removeAttribute("hidden");
+      console.log('respjson IS null');
+    }
+  }
+
+
+  private postResponseErr(msgError: string){
+
+    this.divAutorizando.setAttribute("hidden", "hidden");
+    this.divAutorizadoError.removeAttribute("hidden");
+    console.log('ERROR: ' + msgError);
+  }
+
+
+  /*
   private handleErrorWSlogin(error: HttpErrorResponse): string {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `WS-login Error: ${error.error.message}`;
+      errorMessage = `WS-login Client-side Error: ${error.error.message}`;
     } else {
-      // Server-side errors
-      //errorMessage = `WS-login Error Code: ${error.status} -- Message: ${error.message}`;
-      errorMessage = `WS-login Error Code: ${error.status}`;
+      errorMessage = `WS-login Server-side Error Code: ${error.status}`;
     }
     return errorMessage;
   }
-    
+  */
 
 
   ngOnDestroy(){}
@@ -155,6 +185,7 @@ export class Screen02Component implements OnInit, OnDestroy {
       this.global_service.set_isSheetA4(true);  //ATENCION-FAKE
       this.global_service.set_isFootLeft(true);
       this.global_service.set_isFootRight(false);
+      this.global_service.set_isFirstFoot(true);
       this.router.navigateByUrl('/screen03');
 
       //this.global_service.set_foot_measurements('{"IG":233.5,"BW":99,"FL":264.9,"BG":237}');
@@ -171,6 +202,7 @@ export class Screen02Component implements OnInit, OnDestroy {
       this.global_service.set_isSheetA4(true);  //ATENCION-FAKE
       this.global_service.set_isFootRight(true);
       this.global_service.set_isFootLeft(false);
+      this.global_service.set_isFirstFoot(true);
       this.router.navigateByUrl('/screen03');
 
       //this.global_service.set_foot_measurements('{"IG":233.5,"BW":99,"FL":264.9,"BG":237}');

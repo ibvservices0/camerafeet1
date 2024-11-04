@@ -1,17 +1,31 @@
 <!-- <mat-toolbar *ngIf="isPortrait" class="custom-toolbar"> -->
 <mat-toolbar class="custom-toolbar">
-    <span>{{mytext_app}}-24</span>
+    <span>{{mytext_app}}-14</span>
     <span class="example-fill-remaining-space"></span>
-    <button mat-button (click)="toScreen02es()">{{mytext_es}}</button>
-    <button mat-button (click)="toScreen02en()">{{mytext_en}}</button>
+    <!--  <button mat-button style="color:white" (click)="toScreen02es()">{{mytext_es}}</button> -->
+    <!--  <button mat-button style="color:white" (click)="toScreen02en()">{{mytext_en}}</button> -->
 </mat-toolbar>
-<br><br><br><br><br><br>
-<!-- <span class="span-custom">{{mytext_app}}</span> -->
+<br><br><br><br><br>
+<span class="span-custom">{{mytext_bilingueProducto}}</span>
+<br>
+<span class="span-custom-codeprod">{{mytext_input}}</span>
+<br>
+<span class="span-custom">{{mytext_bilingueMode}}</span>
+<br><br>
  <div class="custom-div-splash">
     <img class="custom-img-splash" src="assets/images/splash.png" />
  </div>
-<br><br><br>
 <span class="span-custom">{{mytext_selectLanguage01}}</span>
-<br><br>
-<span class="span-custom">{{mytext_input}}</span>
+<br>
+<div class="custom-div-splash"><table>
+    <tr>
+        <td style="width: 180px;">
+            <button mat-button style="background-color:blue; color:white; width: 120px;" (click)="toScreen02es()">Español</button>
+        </td>
+        <td style="width: 140px;">
+            <button mat-button style="background-color:blue; color:white; width: 120px;" (click)="toScreen02en()">English</button>
+        </td>
+    </tr>
+</table></div>
+
 

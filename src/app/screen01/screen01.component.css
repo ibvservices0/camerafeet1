@@ -15,9 +15,9 @@
     align-items: center;
     background-color: #1976d2;
     color: white;
-    font-weight: 600;
+    font-weight: 400;
   }
-/**/
+/* font-weight: 600; */
 
 /*
 @media only screen and (orientation: portrait) {
@@ -31,10 +31,21 @@
 .span-custom{
   width: 100%;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   display: block;
 }
+.span-custom-codeprod{
+  width: 100%;
+  font-weight: bold;
+  font-size: 26px;
+  text-align: center;
+  display: block;
+  background-color: #ecec;
+}
+/*
+font-size: 26px;
+*/
 
 
 .custom-div-splash{

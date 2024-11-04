@@ -6,7 +6,7 @@ import { KernelfeetService } from '../kernelfeet.service';
 
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { JSONinput1Content, JSONobjInput, JSONobjFiles, JSONreconstructionRequest } from '../ibv-types-adhoc';
+import { JSONinput1Content, JSONobjInput, JSONobjFiles, JSONreconstructionRequest, JSONreconstructionParameters, JSONreconstructionParametersBis } from '../ibv-types-adhoc';
 
 
 
@@ -50,6 +50,8 @@ export class Screen06Component implements OnInit, OnDestroy {
   private json_objInput3: JSONobjInput;
   private json_objInput4: JSONobjInput;
   private json_objFiles: JSONobjFiles;
+  private json_objParameters: JSONreconstructionParameters;
+  private json_objParametersBis: JSONreconstructionParametersBis;
   private webservice_requestReconstructionJson: JSONreconstructionRequest;
   private webservice_base_url: string;
 
@@ -114,10 +116,34 @@ export class Screen06Component implements OnInit, OnDestroy {
       input4: this.json_objInput4
     };
 
-    this.webservice_requestReconstructionJson = {
-      files: this.json_objFiles,
-      parameters: ''
+    this.json_objParameters = {
+      age: parseInt(this.global_service.user_age(), 10),
+      gender: this.global_service.user_gender()
     };
+    this.json_objParametersBis = {
+      age: parseInt(this.global_service.user_age(), 10),
+      gender: this.global_service.user_gender(),
+      request_code: this.global_service.the_request_code()
+    };
+
+    if (this.global_service.is_firstFoot()){
+      this.webservice_requestReconstructionJson = {
+        files: this.json_objFiles,
+        parameters: this.json_objParameters
+      };
+
+    }
+    else{
+      this.webservice_requestReconstructionJson = {
+        files: this.json_objFiles,
+        parameters: this.json_objParametersBis
+      };
+
+    }
+
+    //parameters: ''
+    //NOOO parameters: JSON.stringify(this.json_objParameters)
+    //parameters: this.json_objParameters
 
     this.webservice_base_url = global_service.webservice_base_url();
   }
@@ -168,9 +194,22 @@ export class Screen06Component implements OnInit, OnDestroy {
 
     const localUrl = this.webservice_base_url + "/models/reconstruction";
 
-    this.global_service.set_isReconstructed(false); //ATENCION-FAKE dejar_false
-    this.global_service.set_foot_measurements('{}');
-    this.global_service.set_obj_footMeasurements(null);
+    this.global_service.set_isReconstructed(false); //ATENCION
+
+    if (this.global_service.is_firstFoot()){
+      this.global_service.set_right_foot_measurements('{}');
+      this.global_service.set_right_obj_footMeasurements(null);
+      this.global_service.set_left_foot_measurements('{}');
+      this.global_service.set_left_obj_footMeasurements(null);
+    }
+    else if (this.global_service.is_footRight()){
+      this.global_service.set_right_foot_measurements('{}');
+      this.global_service.set_right_obj_footMeasurements(null);
+    }
+    else{
+      this.global_service.set_left_foot_measurements('{}');
+      this.global_service.set_left_obj_footMeasurements(null);
+    }
 
     this.mydata_response_error_code = '';
     this.mydata_response_sheet_eval = '';
@@ -179,8 +218,28 @@ export class Screen06Component implements OnInit, OnDestroy {
     this.mydata_response_request_code = '';
     this.mydata_log_action = '';
 
+    /*Begin-deprecated
     this.http.post(localUrl, this.webservice_requestReconstructionJson, httpOptionsRecons).subscribe(
-      (respjson:any) => { 
+      (resp:any) => {this.postResponseOk(resp);},
+      error => {this.postResponseErr(error.message);}
+    );
+    End-deprecated*/
+
+    /*Begin-alternativa*/
+    this.http.post(localUrl, this.webservice_requestReconstructionJson, httpOptionsRecons).subscribe({  
+      next: resp => this.postResponseOk(resp),  
+      error: err => this.postResponseErr(err.message),  
+      complete: () => console.log('http_post done')  
+    });
+    /*End-alternativa*/
+
+  }
+
+
+  private postResponseOk(respjson: any){
+
+    if (respjson !== null){
+
         this.divReconstructionWait.setAttribute("hidden", "hidden");
         this.divReconstructionOk.removeAttribute("hidden");
         console.log('POST response OK');
@@ -191,24 +250,45 @@ export class Screen06Component implements OnInit, OnDestroy {
         this.mydata_response_quality = 'Quality: ' + respjson.quality;
         this.mydata_response_request_code = 'Request-Code: ' + respjson.request_code;
 
+        let sCodereq: String = new String(respjson.request_code);
+        let s_codereq: string = sCodereq.toString();
+        this.global_service.set_request_code(s_codereq);
+
         let numberResponseInfo: Number = Number(respjson.info);
-        if (numberResponseInfo.valueOf() === 0){
+        if ((numberResponseInfo.valueOf() === 0) || (numberResponseInfo.valueOf() === 1)){
           if (str_error_code.includes('"1D_MES":0,"3D_MODEL":0')){
             this.global_service.set_isReconstructed(true); //importante
             var str_parameters: string = JSON.stringify(respjson.parameters);
             var str_parameters2: string = str_parameters.replace('1D_MES', 'the1D_MES');
             let obj_parameters = JSON.parse(str_parameters2);
             let str_measurements: string = JSON.stringify(obj_parameters.the1D_MES);
-            this.global_service.set_foot_measurements(str_measurements);
-            this.global_service.set_obj_footMeasurements(obj_parameters.the1D_MES);
+            if (this.global_service.is_footRight()){
+              this.global_service.set_right_foot_measurements(str_measurements);
+              this.global_service.set_right_obj_footMeasurements(obj_parameters.the1D_MES);
+            }
+            else{
+              this.global_service.set_left_foot_measurements(str_measurements);
+              this.global_service.set_left_obj_footMeasurements(obj_parameters.the1D_MES);
+            }
+            //preservar para el futuro
+            let nowDate: Date = new Date();
+            var s_now_date: string = '';
+            var s_now_time: string = '';
+            if (this.global_service.is_english()){
+              s_now_date = nowDate.toLocaleDateString('en-US');
+              s_now_time = nowDate.toLocaleTimeString('en-US');
+            }
+            else{
+              s_now_date = nowDate.toLocaleDateString('es-ES');
+              s_now_time = nowDate.toLocaleTimeString('es-ES');
+            }
+            var s_previous = s_now_date + ' ' + s_now_time + ' --> ' + s_codereq;
+            localStorage.removeItem('feet_previous');
+            localStorage.setItem('feet_previous', s_previous); //s_codereq
           }
           else{
             this.flagRepeat = true; //¿?
           }
-        }
-        else if (numberResponseInfo.valueOf() === 1){
-          this.flagRepeat = true;
-          alert(this.mytext_reconsInfoPlus1);
         }
         else if (numberResponseInfo.valueOf() === 2){
           this.flagRepeat = true;
@@ -229,16 +309,32 @@ export class Screen06Component implements OnInit, OnDestroy {
         else{
           this.flagRepeat = true; //¿?
         }
+        /* ¿temporalmente?
+        else if (numberResponseInfo.valueOf() === 1){
+          this.flagRepeat = true;
+          alert(this.mytext_reconsInfoPlus1);
+        }
+        */
 
-      },error => {
-        this.divReconstructionWait.setAttribute("hidden", "hidden");
-        this.divReconstructionError.removeAttribute("hidden");
-        console.log('ERROR: ' + error);
-        //this.mydata_log_action = error.message;
-        alert(error.message);
-      }
-    );
-
+    }
+    else{
+      this.divReconstructionWait.setAttribute("hidden", "hidden");
+      this.divReconstructionError.removeAttribute("hidden");
+      console.log('respjson IS null');
+      //this.mydata_log_action = 'respjson IS null';
+      alert('respjson IS null');
+    }
   }
+
+
+  private postResponseErr(msgError: string){
+
+    this.divReconstructionWait.setAttribute("hidden", "hidden");
+    this.divReconstructionError.removeAttribute("hidden");
+    console.log('ERROR: ' + msgError);
+    //this.mydata_log_action = msgError;
+    alert(msgError);
+  }
+
 
 }

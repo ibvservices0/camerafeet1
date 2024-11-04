@@ -1,0 +1,31 @@
+<mat-toolbar class="custom-toolbar">
+    <span>{{mytext_app}}</span>
+    <span class="example-fill-remaining-space"></span>
+    <!-- <button mat-button style="color:white" (click)="toScreen02()">{{mytext_confirm}}</button> -->
+</mat-toolbar>
+<br><br><br><br><br><br>
+<div class="custom-div-centered-bold">
+  <mat-label>{{mytext_fill_age}}</mat-label>
+</div>
+<br>
+<div class="custom-div-centered">
+    <mat-form-field appearance="fill">
+      <input matInput [(ngModel)]="data_age" style="text-align: center" placeholder={{mytext_age}}>
+    </mat-form-field>
+</div>
+<br><br><br>
+<div class="custom-div-centered-bold">
+  <mat-label>{{mytext_select_genre}}</mat-label>
+</div>
+<br>
+<div class="custom-div-centered">
+  <mat-radio-group [(ngModel)]="selectedGender">
+    <mat-radio-button value="1">{{mytext_male}}</mat-radio-button>
+    <mat-radio-button value="2">{{mytext_female}}</mat-radio-button>
+  </mat-radio-group>
+</div>
+<br><br><br>
+<div class="custom-div-centered">
+  <button mat-button style="background-color:blue; color:white; width: 120px;" (click)="toScreen02()">{{mytext_confirm}}</button>
+</div>
+

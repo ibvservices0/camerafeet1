@@ -15,7 +15,7 @@
     align-items: center;
     background-color: #1976d2;
     color: white;
-    font-weight: 600;
+    font-weight: 400;
   }
 
 
@@ -37,7 +37,7 @@
 .span-custom2{
   width: 100%;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 22px;
   text-align: center;
   display: block;
 }

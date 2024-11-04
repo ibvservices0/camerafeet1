@@ -4,7 +4,7 @@
     flex: 1 1 auto;
 }
 
-
+/**/
 .custom-toolbar {
     position: absolute;
     top: 0;
@@ -17,24 +17,17 @@
     color: white;
     font-weight: 400;
   }
+/**/
 
 
-table {
-    width: 80%;
-    margin-left: 20rem auto;
-    margin-right: 20rem auto;
-    background-color: lightgray;
- }
-
- .mat-column-meas-id {
-    width: 30%;
-    text-align: left;
-    font-size: 15px;
-    font-weight: bold;
- }
-
- .mat-column-meas-val {
-    width: 50%;
-    text-align: left;
-    font-size: 17px;
- }
+.custom-div-centered{
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+}
+.custom-div-centered-bold{
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+  font-weight: bold;
+}

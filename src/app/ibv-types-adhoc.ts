@@ -4,9 +4,12 @@ export interface JSONloginRequest {
     username: string;
     password: string;
     grant_type: string;
-    license_code: string;
-    device: string;
+    pass_encript: string;
 }
+//license_code: string;
+
+//device: string;
+
 
 export interface JSONinput1Content {
     sheet_model: number;
@@ -34,9 +37,47 @@ export interface JSONobjFiles {
     input4: any;
 }
 
-export interface JSONreconstructionRequest {
-    files: any;
-    parameters: string;
+
+export interface JSONreconstructionParameters {
+    age: number;
+    gender: string;
 }
 
+export interface JSONreconstructionParametersBis {
+    age: number;
+    gender: string;
+    request_code: string;
+}
+
+
+export interface JSONreconstructionRequest {
+    files: any;
+    parameters: any;
+}
+
+
+export interface JSONrecommendParameters {
+    product_code: string[];
+    request_code: string[];
+    include_user_profile: string;
+    recommend_by_foot: string;
+}
+export interface JSONrecommendParametersBis {
+    product_code: string[];
+    request_code: string[];
+    include_user_profile: string;
+    recommend_by_foot: string;
+}
+//code_user: string;
+
+
+export interface JSONrecommendsizeRequest {
+    parameters: any;
+}
+
+
+export interface JSONavailableRequest{
+    request_code: string;
+    foot_type: number;
+}
 

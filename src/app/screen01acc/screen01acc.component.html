@@ -1,0 +1,39 @@
+<mat-toolbar class="custom-toolbar">
+    <span>{{mytext_app}}</span>
+    <span class="example-fill-remaining-space"></span>
+</mat-toolbar>
+<br><br><br><br><br>
+<div class="custom-div-centered-bold">
+  <mat-label>{{mytext_accPreguntaDisponeCodigo}}</mat-label>
+</div>
+<br>
+<div class="custom-div-centered">
+  <mat-form-field appearance="fill">
+    <input matInput [(ngModel)]="data_used_code" style="text-align: center" placeholder={{mytext_accPlaceholderCode}}>
+  </mat-form-field>
+</div>
+<br>
+<div class="custom-div-centered">
+  <button mat-button style="background-color:blue; color:white; width: 180px;" (click)="actionUtilizarCodigo()">{{mytext_accUtilizarCodigo}}</button>
+</div>
+<div class="custom-div-centered">
+  <img class="custom-img-line" src="assets/images/lineh.png" />
+</div>
+<div class="custom-div-centered-bold">
+  <mat-label>{{mytext_accPreguntaReutilizarUltima}}</mat-label>
+</div>
+<br>
+<div class="custom-div-centered">
+  <button mat-button style="background-color:blue; color:white; width: 180px;" (click)="actionReutilizarUltima()">{{mytext_accReutilizarUltima}}</button>
+</div>
+<div class="custom-div-centered">
+  <img class="custom-img-line" src="assets/images/lineh.png" />
+</div>
+<div class="custom-div-centered-bold">
+  <mat-label>{{mytext_accPreguntaIniciarNueva}}</mat-label>
+</div>
+<br>
+<div class="custom-div-centered">
+  <button mat-button style="background-color:blue; color:white; width: 180px;" (click)="actionIniciarNueva()">{{mytext_accIniciarNueva}}</button>
+</div>
+

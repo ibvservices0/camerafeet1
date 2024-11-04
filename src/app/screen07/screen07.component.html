@@ -1,7 +1,10 @@
 <mat-toolbar class="custom-toolbar">
     <span>{{mytext_app}}</span>
     <span class="example-fill-remaining-space"></span>
-    <button mat-button id="action_recommend" (click)="actionRecommend()">
+    <button *ngIf="flagFirstFoot" mat-button style="color:white" id="action_opposite" (click)="actionOpposite()">
+        {{mytext_actionOpposite}}
+    </button>
+    <button mat-button style="color:white" id="action_recommend" (click)="actionRecommend()">
         {{mytext_actionRecommend}}
     </button>
 </mat-toolbar>
