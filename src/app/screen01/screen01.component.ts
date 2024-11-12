@@ -9,7 +9,7 @@ import { Platform } from '@angular/cdk/platform';
 import { HostListener } from '@angular/core';
 
 import * as permissionacel from '../../scripts/permissionacel.js'
-
+//import * as myredirect from '../../scripts/myredirect.js'
 
 
 @Component({
@@ -111,9 +111,6 @@ export class Screen01Component implements OnInit, OnDestroy {
 
   private toNextScreen(){
     permissionacel.permission_accelerometers();
-
-    //this.router.navigateByUrl('/screen01bis');
-    /* */
     if (localStorage.getItem("feet_previous") === null){
       this.router.navigateByUrl('/screen01bis');
     }
@@ -123,7 +120,12 @@ export class Screen01Component implements OnInit, OnDestroy {
     else{
       this.router.navigateByUrl('/screen01acc');
     }
-    /* */
+    /*
+    let str_url: string = 'https://ibvservices0.github.io/webcliente/results?output1=value1&output2=value2&output3=value3&output4=value4&output5=value5';
+    localStorage.removeItem('feet_url_target');
+    localStorage.setItem('feet_url_target', str_url);
+    myredirect.redirect_to_url_target();
+    */
   }
 
 

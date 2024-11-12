@@ -30,6 +30,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { Screen01accComponent } from './screen01acc/screen01acc.component';
 import { Screen21accComponent } from './screen21acc/screen21acc.component';
 import { Screen31accComponent } from './screen31acc/screen31acc.component';
+import { Screen22accComponent } from './screen22acc/screen22acc.component';
 
 
 
@@ -49,7 +50,8 @@ import { Screen31accComponent } from './screen31acc/screen31acc.component';
     Screen08Component,
     Screen01accComponent,
     Screen21accComponent,
-    Screen31accComponent
+    Screen31accComponent,
+    Screen22accComponent
   ],
   imports: [
     BrowserModule,

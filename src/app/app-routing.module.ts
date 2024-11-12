@@ -12,6 +12,7 @@ import { Screen06Component } from './screen06/screen06.component';
 import { Screen07Component } from './screen07/screen07.component';
 import { Screen08Component } from './screen08/screen08.component';
 import { Screen21accComponent } from './screen21acc/screen21acc.component';
+import { Screen22accComponent } from './screen22acc/screen22acc.component';
 import { Screen31accComponent } from './screen31acc/screen31acc.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'screen07', component: Screen07Component },
   { path: 'screen08', component: Screen08Component },
   { path: 'screen21acc', component: Screen21accComponent },
+  { path: 'screen22acc', component: Screen22accComponent },
   { path: 'screen31acc', component: Screen31accComponent },
   { path: '',   redirectTo: '/screen01', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

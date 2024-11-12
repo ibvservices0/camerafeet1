@@ -20,7 +20,7 @@ export class KernelfeetService {
   private isSheetA4: boolean;
   private isSheetUS: boolean;
 
-  private isEnglish: boolean;
+  private isEnglishLanguage: boolean;
 
   private feetAccesstoken: string;
 
@@ -55,6 +55,9 @@ export class KernelfeetService {
   private isAvailableRight: boolean;
   private isAvailableLeft: boolean;
 
+  private isOppositePending: boolean;
+
+
 
 
   constructor() { 
@@ -73,7 +76,7 @@ export class KernelfeetService {
     this.isSheetA4 = false;
     this.isSheetUS = false;
 
-    this.isEnglish = false;
+    this.isEnglishLanguage = false;
 
     this.feetAccesstoken = '';
     this.right_footMeasurements = '';
@@ -96,6 +99,8 @@ export class KernelfeetService {
 
     this.isAvailableRight = false;
     this.isAvailableLeft = false;
+
+    this.isOppositePending = false;
   }
 
 
@@ -134,9 +139,21 @@ export class KernelfeetService {
 
   public set_the_inputs(inputs: string[]){
 
+    //necesario
+    localStorage.removeItem('feet_input5');
+    localStorage.removeItem('feet_input4');
+    localStorage.removeItem('feet_input3');
+    localStorage.removeItem('feet_input2');
+    localStorage.removeItem('feet_input1');
+
+    //continuamos
     if (inputs.length > 4){
       var str5: string = inputs[4];
       this.input5 = str5.replace('input5=', '');
+
+      let sInput5: String = new String(this.input5);
+      let s_input5: string = sInput5.toString();
+      localStorage.setItem('feet_input5', s_input5);
     }
     else{
       this.input5 = null;
@@ -149,6 +166,7 @@ export class KernelfeetService {
       let sInput4: String = new String(this.input4);
       let s_input4: string = sInput4.toString();
       this.set_url_webReturn(s_input4);
+      localStorage.setItem('feet_input4', s_input4);
     }
     else{
       this.input4 = null;
@@ -161,6 +179,7 @@ export class KernelfeetService {
       let sInput3: String = new String(this.input3);
       let s_input3: string = sInput3.toString();
       this.set_product_code(s_input3);
+      localStorage.setItem('feet_input3', s_input3);
     }
     else{
       this.input3 = null;
@@ -169,6 +188,10 @@ export class KernelfeetService {
     if (inputs.length > 1){
       var str2: string = inputs[1];
       this.input2 = str2.replace('input2=', '');
+
+      let sInput2: String = new String(this.input2);
+      let s_input2: string = sInput2.toString();
+      localStorage.setItem('feet_input2', s_input2);
     }
     else{
       this.input2 = null;
@@ -177,6 +200,10 @@ export class KernelfeetService {
     if (inputs.length > 0){
       var str1: string = inputs[0];
       this.input1 = str1.replace('input1=', '');
+
+      let sInput1: String = new String(this.input1);
+      let s_input1: string = sInput1.toString();
+      localStorage.setItem('feet_input1', s_input1);
     }
     else{
       this.input1 = null;
@@ -186,19 +213,24 @@ export class KernelfeetService {
   
 
   public the_input1(): any{
-    return this.input1;
+    //return this.input1;
+    return localStorage.getItem('feet_input1');
   }
   public the_input2(): any{
-    return this.input2;
+    //return this.input2;
+    return localStorage.getItem('feet_input2');
   }
   public the_input3(): any{
-    return this.input3;
+    //return this.input3;
+    return localStorage.getItem('feet_input3');
   }
   public the_input4(): any{
-    return this.input4;
+    //return this.input4;
+    return localStorage.getItem('feet_input4');
   }
   public the_input5(): any{
-    return this.input5;
+    //return this.input5;
+    return localStorage.getItem('feet_input5');
   }
 
 
@@ -238,10 +270,16 @@ export class KernelfeetService {
 
 
   public set_isEnglish(val: boolean){
-    this.isEnglish = val;
+    this.isEnglishLanguage = val;
+    localStorage.removeItem('feet_is_english');
+    if (val) {localStorage.setItem('feet_is_english', 'TRUE');}
+    else {localStorage.setItem('feet_is_english', 'FALSE');}
   }
-  public is_english(){
-    return this.isEnglish;
+  public is_english(): boolean{
+    //return this.isEnglishLanguage;
+    let str_is_english: string = localStorage.getItem('feet_is_english') || '""';
+    if (str_is_english === 'TRUE') return true;
+    else return false;
   }
 
 
@@ -368,9 +406,12 @@ export class KernelfeetService {
     else{
       this.urlWebReturn = 'https://' + url_web_return;
     }
+    localStorage.removeItem('feet_url_web_return');
+    localStorage.setItem('feet_url_web_return', this.urlWebReturn);
   }
   public get_url_webReturn(): string{
-    return this.urlWebReturn;
+    //return this.urlWebReturn;
+    return localStorage.getItem('feet_url_web_return') || '""';
   }
 
 
@@ -381,20 +422,34 @@ export class KernelfeetService {
   }
 
   public the_arr_product_codes(): string[]{
+    let s_product_code: string = localStorage.getItem('feet_input3') || '""';
+    this.set_product_code(s_product_code);
+
     return this.arr_product_codes;
   }
 
+
   public set_request_code(s_request_code: string){
+    localStorage.removeItem('feet_request_code');
+    localStorage.setItem('feet_request_code', s_request_code);
+  }
+  private set_request_codeBis(s_request_code: string){
     this.request_code = s_request_code;
     this.arr_request_codes = [];
     this.arr_request_codes.push(s_request_code);
   }
 
   public the_arr_request_codes(): string[]{
+    let str_request_code: string = localStorage.getItem('feet_request_code') || '""';
+    this.set_request_codeBis(str_request_code);
+    
     return this.arr_request_codes;
   }
 
   public the_request_code(): string{
+    let str_request_code: string = localStorage.getItem('feet_request_code') || '""';
+    this.set_request_codeBis(str_request_code);
+    
     return this.request_code;
   }
 
@@ -402,14 +457,22 @@ export class KernelfeetService {
   public set_isAvailableRight(val: boolean){
     this.isAvailableRight = val;
   }
-  public is_availableRight(){
+  public is_availableRight(): boolean{
     return this.isAvailableRight;
   }
   public set_isAvailableLeft(val: boolean){
     this.isAvailableLeft = val;
   }
-  public is_availableLeft(){
+  public is_availableLeft(): boolean{
     return this.isAvailableLeft;
+  }
+
+
+  public set_isOppositePending(val: boolean){
+    this.isOppositePending = val;
+  }
+  public is_oppositePending(): boolean{
+    return this.isOppositePending;
   }
 
 
@@ -431,190 +494,190 @@ export class KernelfeetService {
     return 'ES = ESPAÑOL   ,   EN = ENGLISH';
   }
   public text_autorizando(): string{
-    if (this.isEnglish) return 'Authorizing...';
+    if (this.is_english()) return 'Authorizing...';
     return 'Autorizando...';
   }
   public text_autorizadoOk(): string{
-    if (this.isEnglish) return 'Authorized OK';
+    if (this.is_english()) return 'Authorized OK';
     return 'Autorizado OK';
   }
   public text_autorizadoError(): string{
-    if (this.isEnglish) return 'ERROR in authorization';
+    if (this.is_english()) return 'ERROR in authorization';
     return 'ERROR en autorización';
   }
   public text_left(): string{
-    if (this.isEnglish) return 'Left';
+    if (this.is_english()) return 'Left';
     return 'Izquierdo';
   }
   public text_right(): string{
-    if (this.isEnglish) return 'Right';
+    if (this.is_english()) return 'Right';
     return 'Derecho';
   }
   public text_threePhotos(): string{
-    if (this.isEnglish) return 'You will make 3 photos of the foot.';
+    if (this.is_english()) return 'You will make 3 photos of the foot.';
     return 'Vas a hacer 3 fotos del pie.';
   }
   public text_firstPhotoIs(): string{
-    if (this.isEnglish) return 'First photo of the inner side.';
+    if (this.is_english()) return 'First photo of the inner side.';
     return 'Primera foto de la parte interior.';
   }
   public text_secondPhotoIs(): string{
-    if (this.isEnglish) return 'Second photo of the top side.';
+    if (this.is_english()) return 'Second photo of the top side.';
     return 'Segunda foto de la parte superior.';
   }
   public text_thirdPhotoIs(): string{
-    if (this.isEnglish) return 'Third photo of the outer side.';
+    if (this.is_english()) return 'Third photo of the outer side.';
     return 'Tercera foto de la parte exterior.';
   }
   public text_firstMobileInLandscape(): string{
-    if (this.isEnglish) return 'And take photos with mobile in landscape';
+    if (this.is_english()) return 'And take photos with mobile in landscape';
     return 'Y toma fotos con móvil en apaisado';
   }
   public text_selectFoot(): string{
-    if (this.isEnglish) return 'Select right foot or left';
+    if (this.is_english()) return 'Select right foot or left';
     return 'Selecciona pie derecho o izquierdo';
   }
   public text_notAuthorizedToContinue(): string{
-    if (this.isEnglish) return 'Not authorized to continue';
+    if (this.is_english()) return 'Not authorized to continue';
     return 'No está autorizado para poder continuar';
   }
   public text_sideInner(): string{
-    if (this.isEnglish) return ' INNER';
+    if (this.is_english()) return ' INNER';
     return ' INTERIOR';
   }
   public text_sideTop(): string{
-    if (this.isEnglish) return ' TOP';
+    if (this.is_english()) return ' TOP';
     return ' SUPERIOR';
   }
   public text_sideOuter(): string{
-    if (this.isEnglish) return ' OUTER';
+    if (this.is_english()) return ' OUTER';
     return ' EXTERIOR';
   }
   public text_repeat(): string{
-    if (this.isEnglish) return 'Repeat';
+    if (this.is_english()) return 'Repeat';
     return 'Repetir';
   }
   public text_confirm(): string{
-    if (this.isEnglish) return 'Confirm';
+    if (this.is_english()) return 'Confirm';
     return 'Confirmar';
   }
   public text_actionMeasurements(): string{
-    if (this.isEnglish) return 'View measurements';
+    if (this.is_english()) return 'View measurements';
     return 'Ver medidas';
   }
   public text_reconstructionWait(): string{
-    if (this.isEnglish) return 'Waiting for reconstruction...';
+    if (this.is_english()) return 'Waiting for reconstruction...';
     return 'Esperando reconstrucción...';
   }
   public text_reconstructionOk(): string{
-    if (this.isEnglish) return 'Reconstruction';
+    if (this.is_english()) return 'Reconstruction';
     return 'Reconstrucción';
   }
   public text_reconstructionError(): string{
-    if (this.isEnglish) return 'ERROR in reconstruction';
+    if (this.is_english()) return 'ERROR in reconstruction';
     return 'ERROR en reconstrucción';
   }
   public text_measuresNotAllowed(): string{
-    if (this.isEnglish) return 'Unfinished reconstruction. Measurements are not available.';
+    if (this.is_english()) return 'Unfinished reconstruction. Measurements are not available.';
     return 'La reconstrucción no se completó. No hay medidas disponibles.';
   }
   public text_actionRecommend(): string{
-    if (this.isEnglish) return 'Recommend ';
+    if (this.is_english()) return 'Recommend ';
     return 'Recomendar ';
   }
   public text_actionOpposite(): string{
-    if (this.isEnglish) return 'Opposite-Foot';
+    if (this.is_english()) return 'Opposite-Foot';
     return 'Pie-Opuesto';
   }
   public text_reconsInfoPlus1(): string{
-    if (this.isEnglish) return 'Not optimal reconstruction. Repeat the photos.';
+    if (this.is_english()) return 'Not optimal reconstruction. Repeat the photos.';
     return 'La reconstrucción no es óptima. Repite las fotos.';
   }
   public text_reconsInfoPlus2(): string{
-    if (this.isEnglish) return 'Wrong reconstruction. Repeat the photos.';
+    if (this.is_english()) return 'Wrong reconstruction. Repeat the photos.';
     return 'La reconstrucción es errónea. Repite las fotos.';
   }
   public text_reconsInfoPlus3(): string{
-    if (this.isEnglish) return 'Not enough good images for reconstruction. Repeat the photos.';
+    if (this.is_english()) return 'Not enough good images for reconstruction. Repeat the photos.';
     return 'No hay suficientes buenas imágenes para la reconstrucción. Repite las fotos.';
   }
   public text_reconsInfoPlus4(): string{
-    if (this.isEnglish) return 'The dimensions of the paper sheet specified in the json file input do not match the paper sheet dimensions calculated. Repeat the photos.';
+    if (this.is_english()) return 'The dimensions of the paper sheet specified in the json file input do not match the paper sheet dimensions calculated. Repeat the photos.';
     return 'Las dimensiones de la hoja especificadas en el json no coinciden con las dimensiones de la hoja calculada. Repite las fotos.';
   }
   public text_reconsInfoMinus1(): string{
-    if (this.isEnglish) return 'A general error has occurred in the reconstruction process. Repeat the photos.';
+    if (this.is_english()) return 'A general error has occurred in the reconstruction process. Repeat the photos.';
     return 'Un error general ha ocurrido en el proceso de reconstrucción. Repite las fotos.';
   }
   public text_fourCornersOfSheet(): string{
-    if (this.isEnglish) return 'THE 4 CORNERS OF THE SHEET MUST';
+    if (this.is_english()) return 'THE 4 CORNERS OF THE SHEET MUST';
     return 'LAS 4 ESQUINAS DE LA HOJA DEBEN';
   }
   public text_fourCornersOfSheetBis(): string{
-    if (this.isEnglish) return 'BE VISIBLE IN EACH PHOTO.';
+    if (this.is_english()) return 'BE VISIBLE IN EACH PHOTO.';
     return 'ESTAR VISIBLES EN CADA FOTO.';
   }
   public text_back(): string{
-    if (this.isEnglish) return 'Back';
+    if (this.is_english()) return 'Back';
     return 'Atrás';
   }
   public text_continue(): string{
-    if (this.isEnglish) return 'Continue';
+    if (this.is_english()) return 'Continue';
     return 'Continuar';
   }
   public text_fill_age(): string{
-    if (this.isEnglish) return 'Fill your age';
+    if (this.is_english()) return 'Fill your age';
     return 'Introduce tu edad';
   }
   public text_select_genre(): string{
-    if (this.isEnglish) return 'Select your genre';
+    if (this.is_english()) return 'Select your genre';
     return 'Selecciona tu género';
   }
   public text_age(): string{
-    if (this.isEnglish) return 'AGE';
+    if (this.is_english()) return 'AGE';
     return 'EDAD';
   }
   public text_male(): string{
-    if (this.isEnglish) return 'Male';
+    if (this.is_english()) return 'Male';
     return 'Hombre';
   }
   public text_female(): string{
-    if (this.isEnglish) return 'Female';
+    if (this.is_english()) return 'Female';
     return 'Mujer';
   }
   public text_ageFilledInvalid(): string{
-    if (this.isEnglish) return 'The age entered is not correct';
+    if (this.is_english()) return 'The age entered is not correct';
     return 'La edad introducida no es correcta';
   }
   public text_genderNotSelected(): string{
-    if (this.isEnglish) return 'No gender was selected';
+    if (this.is_english()) return 'No gender was selected';
     return 'No ha seleccionado su género';
   }
   public text_recommendWait(): string{
-    if (this.isEnglish) return 'Waiting for size recommendation...';
+    if (this.is_english()) return 'Waiting for size recommendation...';
     return 'Esperando recomendación de talla...';
   }
   public text_recommendOk(): string{
-    if (this.isEnglish) return 'Size recommendation';
+    if (this.is_english()) return 'Size recommendation';
     return 'Recomendación de talla';
   }
   public text_recommendError(): string{
-    if (this.isEnglish) return 'ERROR in size recommendation';
+    if (this.is_english()) return 'ERROR in size recommendation';
     return 'ERROR en recomendación de talla';
   }
   public text_tallaDePie(): string{
-    if (this.isEnglish) return 'SIZE FOOT';
+    if (this.is_english()) return 'SIZE FOOT';
     return 'TALLA DE PIE';
   }
   public text_paraElProducto(): string{
-    if (this.isEnglish) return 'FOR THE PRODUCT CODE';
+    if (this.is_english()) return 'FOR THE PRODUCT CODE';
     return 'PARA EL CÓDIGO DE PRODUCTO';
   }
   public text_bilingueProducto(): string{
     return 'CÓDIGO-DE-PRODUCTO / PRODUCT-CODE';
   }
   public text_newScan(): string{
-    if (this.isEnglish) return 'New-Scan';
+    if (this.is_english()) return 'New-Scan';
     return 'Nuevo-Scan';
   }
 
@@ -626,41 +689,41 @@ export class KernelfeetService {
   }
 
   public text_recommendCode(): string{
-    if (this.isEnglish) return 'Recommend code';
+    if (this.is_english()) return 'Recommend code';
     return 'Código de recomendación';
   }
   public text_requestCode(): string{
-    if (this.isEnglish) return 'Request code';
+    if (this.is_english()) return 'Request code';
     return 'Código de reconstrucción';
   }
 
   public text_codeusedFilledInvalid(): string{
-    if (this.isEnglish) return 'The code entered is not in the correct format';
+    if (this.is_english()) return 'The code entered is not in the correct format';
     return 'El código introducido no tiene un formato correcto';
   }
 
   public text_availabler(): string{
-    if (this.isEnglish) return 'Right foot...';
+    if (this.is_english()) return 'Right foot...';
     return 'Pie derecho...';
   }
   public text_availablerOk(): string{
-    if (this.isEnglish) return 'Right foot available';
+    if (this.is_english()) return 'Right foot available';
     return 'Pie derecho disponible';
   }
   public text_availablerError(): string{
-    if (this.isEnglish) return 'No right foot available';
+    if (this.is_english()) return 'No right foot available';
     return 'No se dispone de pie derecho';
   }
   public text_availablel(): string{
-    if (this.isEnglish) return 'Left foot...';
+    if (this.is_english()) return 'Left foot...';
     return 'Pie izquierdo...';
   }
   public text_availablelOk(): string{
-    if (this.isEnglish) return 'Left foot available';
+    if (this.is_english()) return 'Left foot available';
     return 'Pie izquierdo disponible';
   }
   public text_availablelError(): string{
-    if (this.isEnglish) return 'No left foot available';
+    if (this.is_english()) return 'No left foot available';
     return 'No se dispone de pie izquierdo';
   }
 
@@ -669,31 +732,31 @@ export class KernelfeetService {
 
 
   public text_accPreguntaDisponeCodigo(): string{
-    if (this.isEnglish) return 'Did you get reconstruction code?';
+    if (this.is_english()) return 'Did you get reconstruction code?';
     return '¿Dispone de código de reconstrucción?';
   }
   public text_accPlaceholderCode(): string{
-    if (this.isEnglish) return 'CODE';
+    if (this.is_english()) return 'CODE';
     return 'CODIGO';
   }
   public text_accUtilizarCodigo(): string{
-    if (this.isEnglish) return 'Use Code';
+    if (this.is_english()) return 'Use Code';
     return 'Utilizar Código';
   }
   public text_accPreguntaReutilizarUltima(): string{
-    if (this.isEnglish) return 'Reuse last reconstruction?';
+    if (this.is_english()) return 'Reuse last reconstruction?';
     return '¿Reutilizar la última reconstrucción?';
   }
   public text_accReutilizarUltima(): string{
-    if (this.isEnglish) return 'Reuse Last';
+    if (this.is_english()) return 'Reuse Last';
     return 'Reutilizar Ultima';
   }
   public text_accPreguntaIniciarNueva(): string{
-    if (this.isEnglish) return 'Start a new reconstruction?';
+    if (this.is_english()) return 'Start a new reconstruction?';
     return '¿Iniciar una nueva reconstrucción?';
   }
   public text_accIniciarNueva(): string{
-    if (this.isEnglish) return 'Start New';
+    if (this.is_english()) return 'Start New';
     return 'Iniciar Nueva';
   }
 

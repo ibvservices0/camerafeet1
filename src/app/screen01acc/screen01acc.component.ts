@@ -80,6 +80,7 @@ export class Screen01accComponent implements OnInit, OnDestroy {
   }
 
   public actionReutilizarUltima(){
+    //en screen01 se verificó localStorage.getItem("feet_previous") no-null
     this.router.navigateByUrl('/screen31acc');
   }
 

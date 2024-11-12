@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 
 import { KernelfeetService } from '../kernelfeet.service';
 
-//import * as mytest from '../../scripts/mytest.js'
 import { Observable, Subject, of } from 'rxjs';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators'
 import { throwError } from 'rxjs';
 import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { JSONloginRequest, JSONavailableRequest } from '../ibv-types-adhoc';
+
+import { Location } from '@angular/common'
 
 
 
@@ -58,7 +59,7 @@ export class Screen31accComponent implements OnInit, OnDestroy {
 
 
 
-  constructor(private router: Router, public global_service: KernelfeetService, private http: HttpClient){
+  constructor(private router: Router, public global_service: KernelfeetService, private http: HttpClient, private location: Location){
     this.mytext_app = global_service.text_app();
     this.mytext_autorizando = global_service.text_autorizando();
     this.mytext_autorizadoOk = global_service.text_autorizadoOk();
@@ -70,9 +71,10 @@ export class Screen31accComponent implements OnInit, OnDestroy {
     this.mytext_availablelOk = global_service.text_availablelOk();
     this.mytext_availablelError = global_service.text_availablelError();
     this.mytext_back = global_service.text_back();
-    this.mytext_continue = global_service.text_continue();
+    //this.mytext_continue = global_service.text_continue();
+    this.mytext_continue = global_service.text_actionRecommend();
 
-    this.mytext_dataCodeDate = localStorage.getItem("feet_previous") || '""';
+    this.mytext_dataCodeDate = localStorage.getItem("feet_previous") || '""'; //importante
 
     this.webservice_requestLoginJson = {
       client_id: global_service.webservice_client_id(),
@@ -85,15 +87,14 @@ export class Screen31accComponent implements OnInit, OnDestroy {
     //license_code: global_service.webservice_license_code()
     //device: global_service.webservice_device()
 
-    let arr_elems: string[] = this.mytext_dataCodeDate.split(' --> ')
-    let mytext_dataCode: string = arr_elems[1];
+    let txt_dataCode: string = this.get_dataCode(this.mytext_dataCodeDate);
 
     this.webservice_requestRightJson = {
-      request_code: mytext_dataCode,
+      request_code: txt_dataCode,
       foot_type: 2
     };
     this.webservice_requestLeftJson = {
-      request_code: mytext_dataCode,
+      request_code: txt_dataCode,
       foot_type: 1
     };
     //nooo request_code: global_service.the_request_code()
@@ -122,6 +123,10 @@ export class Screen31accComponent implements OnInit, OnDestroy {
     this.flagSomeAvailable = false;
 
     this.webservice_login();
+
+    //TEMPORALMENTE
+    //let str_req_json: string = JSON.stringify(this.webservice_requestLoginJson);
+    //alert(str_req_json);
   }
 
 
@@ -163,8 +168,7 @@ export class Screen31accComponent implements OnInit, OnDestroy {
       this.global_service.set_isAuthenticated(true);
     }
     else{
-      this.divAutorizando.setAttribute("hidden", "hidden");
-      this.divAutorizadoError.removeAttribute("hidden");
+      this.postLoginErr('err.login31');
     }
   }
 
@@ -238,22 +242,16 @@ export class Screen31accComponent implements OnInit, OnDestroy {
           this.flagSomeAvailable = true;
         }
         else{
-          this.divAvailablel.setAttribute("hidden", "hidden");
-          this.divAvailablelError.removeAttribute("hidden");
           this.postLeftErr('Error-01l');
         }
 
       }
       else{
-        this.divAvailablel.setAttribute("hidden", "hidden");
-        this.divAvailablelError.removeAttribute("hidden");
         this.postLeftErr('Error-02l');
       }
 
     }
     else{
-      this.divAvailablel.setAttribute("hidden", "hidden");
-      this.divAvailablelError.removeAttribute("hidden");
       this.postLeftErr('Error-03l');
     }
   }
@@ -302,22 +300,16 @@ export class Screen31accComponent implements OnInit, OnDestroy {
           this.flagSomeAvailable = true;
         }
         else{
-          this.divAvailabler.setAttribute("hidden", "hidden");
-          this.divAvailablerError.removeAttribute("hidden");
           this.postRightErr('Error-01r');
         }
 
       }
       else{
-        this.divAvailabler.setAttribute("hidden", "hidden");
-        this.divAvailablerError.removeAttribute("hidden");
         this.postRightErr('Error-02r');
       }
 
     }
     else{
-      this.divAvailabler.setAttribute("hidden", "hidden");
-      this.divAvailablerError.removeAttribute("hidden");
       this.postRightErr('Error-03r');
     }
   }
@@ -338,13 +330,39 @@ export class Screen31accComponent implements OnInit, OnDestroy {
   }
 
 
+
+  private get_dataCode(dataCodeDate: string): string{
+    let arr_elems: string[] = dataCodeDate.split(' --> ')
+    return arr_elems[1];
+  }
+
+
   public actionBack() {
-    this.router.navigateByUrl('/screen01acc');
+    //this.router.navigateByUrl('/screen01acc');
+    this.location.back();
   }
 
   public actionContinue() {
-    //this.router.navigateByUrl('/screenXX');
-    alert('En construcción...');
+    //first
+    let txt_dataCode: string = this.get_dataCode(this.mytext_dataCodeDate);
+    this.global_service.set_request_code(txt_dataCode);
+    //then - adaptacion para reutilizar screen08
+    if (this.global_service.is_availableLeft() && this.global_service.is_availableRight()){
+      this.global_service.set_isFirstFoot(false);
+      this.router.navigateByUrl('/screen08');
+    }
+    else if (this.global_service.is_availableLeft()){
+      this.global_service.set_isFirstFoot(true);
+      this.global_service.set_isFootRight(false);
+      this.global_service.set_isFootLeft(true);
+      this.router.navigateByUrl('/screen08');
+    }
+    else if (this.global_service.is_availableRight()){
+      this.global_service.set_isFirstFoot(true);
+      this.global_service.set_isFootRight(true);
+      this.global_service.set_isFootLeft(false);
+      this.router.navigateByUrl('/screen08');
+    }
   }
 
 }

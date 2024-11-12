@@ -42,7 +42,8 @@
               "src/scripts/permissionacel.js",
               "src/scripts/mypose1.js",
               "src/scripts/mypose2.js",
-              "src/scripts/mypose3.js"
+              "src/scripts/mypose3.js",
+              "src/scripts/myredirect.js"
             ]
           },
           "configurations": {
@@ -106,7 +107,8 @@
               "src/scripts/permissionacel.js",
               "src/scripts/mypose1.js",
               "src/scripts/mypose2.js",
-              "src/scripts/mypose3.js"
+              "src/scripts/mypose3.js",
+              "src/scripts/myredirect.js"
             ]
           }
         },

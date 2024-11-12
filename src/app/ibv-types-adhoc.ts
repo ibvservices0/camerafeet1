@@ -81,3 +81,9 @@ export interface JSONavailableRequest{
     foot_type: number;
 }
 
+export interface JSONgetRequest{
+    request_code: string;
+    foot_type: number;
+    capabilities: string;
+}
+

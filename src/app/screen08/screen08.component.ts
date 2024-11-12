@@ -10,6 +10,10 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { JSONrecommendParameters, JSONrecommendParametersBis, JSONrecommendsizeRequest } from '../ibv-types-adhoc';
 
+import * as myredirect from '../../scripts/myredirect.js'
+
+
+
 
 @Component({
   selector: 'app-screen08',
@@ -253,6 +257,27 @@ export class Screen08Component implements OnInit, OnDestroy {
   public toNewScan() {
     //this.router.navigateByUrl('/screen01bis');
     this.router.navigateByUrl('/screen01acc');
+  }
+
+  public toWeb(){
+    var str_url: string = this.global_service.get_url_webReturn();
+
+    str_url = str_url + '?output1=' + this.global_service.the_request_code();
+    str_url = str_url + '&output2=' + this.global_service.the_rr_recommendCode();
+
+    //str_url = str_url + '&output3=' + this.text_log_recommend;
+    str_url = str_url + '&output3=' + encodeURIComponent(this.text_log_recommend);
+
+    str_url = str_url + '&output4=' + this.global_service.the_rr_productCode();
+
+    if (this.global_service.the_input5() !== null){
+      //str_url = str_url + '&output5=' + this.global_service.webservice_username();
+      str_url = str_url + '&output5=' + encodeURIComponent(this.global_service.webservice_username());
+    }
+
+    localStorage.removeItem('feet_url_target');
+    localStorage.setItem('feet_url_target', str_url);
+    myredirect.redirect_to_url_target();
   }
 
 }

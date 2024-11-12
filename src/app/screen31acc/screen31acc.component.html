@@ -1,7 +1,7 @@
 <mat-toolbar class="custom-toolbar">
     <span>{{mytext_app}}</span>
     <span class="example-fill-remaining-space"></span>
-    <button *ngIf="!flagSomeAvailable" mat-button style="color:white" id="action_back" (click)="actionBack()">
+    <button mat-button style="color:white" id="action_back" (click)="actionBack()">
         {{mytext_back}}
     </button>
     <button *ngIf="flagSomeAvailable" mat-button style="color:white" id="action_continue" (click)="actionContinue()">
