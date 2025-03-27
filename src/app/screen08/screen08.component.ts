@@ -10,7 +10,7 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { JSONrecommendParameters, JSONrecommendParametersBis, JSONrecommendsizeRequest } from '../ibv-types-adhoc';
 
-import * as myredirect from '../../scripts/myredirect.js'
+//2025 import * as myredirect from '../../scripts/myredirect.js'
 
 
 
@@ -256,6 +256,10 @@ export class Screen08Component implements OnInit, OnDestroy {
 
   public toNewScan() {
     //this.router.navigateByUrl('/screen01bis');
+
+    //before
+    this.global_service.set_flagRedirect2external(false);
+    //after
     this.router.navigateByUrl('/screen01acc');
   }
 
@@ -277,7 +281,12 @@ export class Screen08Component implements OnInit, OnDestroy {
 
     localStorage.removeItem('feet_url_target');
     localStorage.setItem('feet_url_target', str_url);
-    myredirect.redirect_to_url_target();
+    //2025 myredirect.redirect_to_url_target();
+
+    //before
+    this.global_service.set_flagRedirect2external(true); //activamos_flag
+    //after
+    this.router.navigateByUrl('/screen01acc');
   }
 
 }

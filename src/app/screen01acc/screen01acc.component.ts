@@ -3,6 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { KernelfeetService } from '../kernelfeet.service';
 import { Router } from '@angular/router';
 
+import * as myredirect from '../../scripts/myredirect.js'
+
 
 
 @Component({
@@ -41,6 +43,16 @@ export class Screen01accComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(){
+  }
+
+
+  ngAfterViewInit() {
+    // viewChild is set after the view has been initialized
+
+    if (this.global_service.get_flagRedirect2external() === true){
+      this.global_service.set_flagRedirect2external(false); //desactivamos_flag
+      myredirect.redirect_to_url_target();
+    }
   }
 
 

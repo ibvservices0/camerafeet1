@@ -57,6 +57,7 @@ export class KernelfeetService {
 
   private isOppositePending: boolean;
 
+  private flagRedirect2external: boolean;
 
 
 
@@ -101,6 +102,7 @@ export class KernelfeetService {
     this.isAvailableLeft = false;
 
     this.isOppositePending = false;
+    this.flagRedirect2external = false;
   }
 
 
@@ -115,7 +117,6 @@ export class KernelfeetService {
   public webservice_username(): string{
     return '';
   }
-
 
   public webservice_password(): string{
     return '';
@@ -476,10 +477,17 @@ export class KernelfeetService {
   }
 
 
+  public set_flagRedirect2external(val: boolean){
+    this.flagRedirect2external = val;
+  }
+  public get_flagRedirect2external(): boolean{
+    return this.flagRedirect2external;
+  }
+
 
 
   public text_app(): string{
-    return ' SCANFEET';
+    return ' SCANFEET-010';
   }
   public text_es(): string{
     return 'ES';
